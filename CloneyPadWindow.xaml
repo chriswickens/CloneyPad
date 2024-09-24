@@ -8,6 +8,7 @@
         Title="CloneyPad" Height="450" Width="800">
     <DockPanel>
         <Menu>
+            <!-- File Menu -->
             <MenuItem Header="_File">
                 <MenuItem Header="_New"/>
                 <MenuItem Header="_Open..."/>
@@ -15,6 +16,13 @@
                 <MenuItem Header="Save _As..."/>
             </MenuItem>
             
+            <!-- Edit Menu -->
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Cut"/>
+                <MenuItem Header="C_opy"/>
+                <MenuItem Header="_Paste"/>
+            </MenuItem>
+            <MenuItem Header="_About"/>
         </Menu>
     </DockPanel>
 </Window>
