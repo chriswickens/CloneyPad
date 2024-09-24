@@ -20,9 +20,6 @@ namespace CloneyPad
     /// </summary>
     public partial class CloneyPadWindow : Window
     {
-        private bool hasFileBeenSaved = false;
-        private string fileName = "untitled.txt";
-
         public CloneyPadWindow()
         {
             InitializeComponent();
@@ -48,11 +45,6 @@ namespace CloneyPad
 
         }
 
-        private void cmdOpen_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-
-        }
-
         private void cmdSave_Executed(object sender, ExecutedRoutedEventArgs e)
         {
 
@@ -71,6 +63,11 @@ namespace CloneyPad
         private void cmdSaveAs_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
 
+        }
+
+        private void mnuFile_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

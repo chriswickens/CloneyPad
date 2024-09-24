@@ -14,8 +14,7 @@
                         CanExecute="cmdNew_CanExecute"/>
 
         <CommandBinding x:Name="cmdOpen" Command="ApplicationCommands.Open"
-                        Executed="cmdOpen_Executed"
-                        CanExecute="cmdOpen_CanExecute"/>
+                        Executed="cmdOpen_Executed"/>
 
         <CommandBinding x:Name="cmdSave" Command="ApplicationCommands.Save"
                         Executed="cmdSave_Executed"
@@ -46,6 +45,10 @@
                     Name="mnuFile_SaveAs"
                     Header="Save _As..."
                     Command="ApplicationCommands.SaveAs"/>
+                <MenuItem
+                    Name="mnuFile_Exit"
+                    Header="Exit"
+                    Click="mnuFile_Exit_Click"/>
             </MenuItem>
 
             <!-- Edit Menu -->
@@ -65,7 +68,6 @@
                     Header="_Paste"
                     Command="ApplicationCommands.Paste"
                     CommandTarget="{Binding ElementName=txtBxMainTextView}"/>
-
             </MenuItem>
 
             <!-- About Menu -->
