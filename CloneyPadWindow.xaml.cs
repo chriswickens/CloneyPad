@@ -69,5 +69,11 @@ namespace CloneyPad
         {
             Close();
         }
+
+        private void mnuAbout_Click(object sender, RoutedEventArgs e)
+        {
+            Window aboutWindow = new AboutWindow();
+            aboutWindow.ShowDialog();
+        }
     }
 }
