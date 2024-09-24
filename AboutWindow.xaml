@@ -9,18 +9,23 @@
         BorderBrush="Azure"
         BorderThickness="2"
         Background="AliceBlue" 
-        Height="300" Width="300" 
+        Height="275" Width="300" 
         ResizeMode="NoResize" 
         Topmost="True" 
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner" Icon="/bitmapIcon.bmp">
 
-    <Grid>
+    <Grid Background="DeepSkyBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontWeight="Heavy" FontSize="20">CloneyPad</TextBlock>
+        <Image Grid.Row="0" Source="/bitmapIcon.bmp" HorizontalAlignment="Left"></Image>
+        
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontWeight="Heavy" FontSize="20">
+            <TextBlock.Effect>
+                <DropShadowEffect Color="DarkSlateGray" BlurRadius="5" Opacity="1" ShadowDepth="3" />
+            </TextBlock.Effect>CloneyPad</TextBlock>
         <TextBox  Grid.Row="1" Name="txtBxAboutText" IsEnabled="False"></TextBox>
         <Button Margin="10" Grid.Row="2" Name="btnAbout_Close" Height="Auto" Width="50" Content="Close" Click="btnAbout_Close_Click"/>
 
