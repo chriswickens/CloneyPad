@@ -10,28 +10,44 @@
         <Menu DockPanel.Dock="Top">
             <!-- File Menu -->
             <MenuItem Header="_File">
-                <MenuItem Header="_New"/>
-                <MenuItem Header="_Open..."/>
-                <MenuItem Header="_Save"/>
-                <MenuItem Header="Save _As..."/>
+                <MenuItem
+                    Name="mnuFile_New"
+                    Header="_New"/>
+                <MenuItem
+                    Name="mnuFile_Open"
+                    Header="_Open..."/>
+                <MenuItem
+                    Name="mnuFile_Save"
+                    Header="_Save"/>
+                <MenuItem
+                    Name="mnuFile_SaveAs"
+                    Header="Save _As..."/>
             </MenuItem>
-            
+
             <!-- Edit Menu -->
             <MenuItem Header="_Edit">
-                <MenuItem Header="_Cut"/>
-                <MenuItem Header="C_opy"/>
-                <MenuItem Header="_Paste"/>
+                <MenuItem
+                    Name="mnuEdit_Cut"
+                    Header="_Cut"/>
+                <MenuItem
+                    Name="mnuEdit_Copy"
+                    Header="C_opy"/>
+                <MenuItem
+                    Name="mnuEdit_Paste"
+                    Header="_Paste"/>
             </MenuItem>
-            <MenuItem Header="_About"/>
+            <MenuItem 
+                Name="mnu_About"
+                Header="_About"/>
         </Menu>
-        
+
         <!-- Status Bar -->
         <StatusBar Height="20" DockPanel.Dock="Bottom">
             <Label Margin="0,-10,-12,-10" Width="50" Content="Length:"/>
-            <Label Margin="0,-10,0,-10" Width="Auto" Content="74839"/>
+            <Label Name="lblCharCount" Margin="0,-10,0,-10" Width="Auto" Content="74839"/>
         </StatusBar>
-        
+
         <!-- TextBox Document View -->
-        <TextBox></TextBox>
+        <TextBox />
     </DockPanel>
 </Window>
