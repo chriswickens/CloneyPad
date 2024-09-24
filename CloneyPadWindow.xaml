@@ -46,29 +46,36 @@
             <MenuItem Header="_File">
                 <MenuItem
                     Name="mnuFile_New"
-                    Header="_New"/>
+                    Header="_New"
+                    Command="ApplicationCommands.New"/>
                 <MenuItem
                     Name="mnuFile_Open"
-                    Header="_Open..."/>
+                    Header="_Open..."
+                    Command="ApplicationCommands.Open"/>
                 <MenuItem
                     Name="mnuFile_Save"
-                    Header="_Save"/>
+                    Header="_Save"
+                    Command="ApplicationCommands.Save"/>
                 <MenuItem
                     Name="mnuFile_SaveAs"
-                    Header="Save _As..."/>
+                    Header="Save _As..."
+                    Command="ApplicationCommands.SaveAs"/>
             </MenuItem>
 
             <!-- Edit Menu -->
             <MenuItem Header="_Edit">
                 <MenuItem
                     Name="mnuEdit_Cut"
-                    Header="_Cut"/>
+                    Header="_Cut"
+                    Command="ApplicationCommands.Cut"/>
                 <MenuItem
                     Name="mnuEdit_Copy"
-                    Header="C_opy"/>
+                    Header="C_opy"
+                    Command="ApplicationCommands.Copy"/>
                 <MenuItem
                     Name="mnuEdit_Paste"
-                    Header="_Paste"/>
+                    Header="_Paste"
+                    Command="ApplicationCommands.Paste"/>
             </MenuItem>
             
             <!-- About Menu -->
