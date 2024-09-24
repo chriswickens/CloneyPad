@@ -50,7 +50,7 @@ namespace CloneyPad
             lblCharCount.Content = txtBxMainTextView.Text.Length.ToString();
             hasTextBeenEdited = true;
         }
-        private MessageBoxResult AskAboutUnsavedChanges(object sender, ExecutedRoutedEventArgs e)
+        private MessageBoxResult AskAboutUnsavedChanges(/*object sender*//*, ExecutedRoutedEventArgs e*/)
         {
             if (!hasFileBeenSaved && hasTextBeenEdited)
             {
@@ -64,7 +64,7 @@ namespace CloneyPad
 
                 if (askForSave == MessageBoxResult.Yes)
                 {
-                    cmdSave_Executed(sender, e);
+                    cmdSave_Executed(null, null);
                     if (anySaveSuccess)
                     {
                         return MessageBoxResult.Yes;
@@ -79,7 +79,7 @@ namespace CloneyPad
         {
             if (!hasFileBeenSaved && hasTextBeenEdited)
             {
-                MessageBoxResult createNew = AskAboutUnsavedChanges(sender, e);
+                MessageBoxResult createNew = AskAboutUnsavedChanges();
                 if (createNew == MessageBoxResult.No || createNew == MessageBoxResult.Yes)
                 {
                     txtBxMainTextView.Text = "";
@@ -113,7 +113,7 @@ namespace CloneyPad
             if (!hasFileBeenSaved && hasTextBeenEdited)
             {
                 // If the user is asked about changes
-                saveBeforeOpen = AskAboutUnsavedChanges(sender, e);
+                saveBeforeOpen = AskAboutUnsavedChanges();
             }
 
             // Show the OpenFileDialog if the user clicked anything other than Cancel
@@ -132,6 +132,7 @@ namespace CloneyPad
                             txtBxMainTextView.Text = fileContents.ReadToEnd(); // Put file contents into main text view
                             fileNameOnly = fileToOpen.SafeFileName; // Store the fileNameOnly (example.txt)
                             fullPathFileName = fileToOpen.FileName; // Store the full filename and path
+                            hasTextBeenEdited = false;
                         }
 
                         UpdateTitle();
