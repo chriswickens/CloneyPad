@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:CloneyPad"
         mc:Ignorable="d"
         Title="CloneyPad" Height="450" Width="800">
+    
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <!-- File Menu -->
@@ -36,8 +37,10 @@
                     Name="mnuEdit_Paste"
                     Header="_Paste"/>
             </MenuItem>
+            
+            <!-- About Menu -->
             <MenuItem 
-                Name="mnu_About"
+                Name="mnuAbout"
                 Header="_About"/>
         </Menu>
 
@@ -48,6 +51,6 @@
         </StatusBar>
 
         <!-- TextBox Document View -->
-        <TextBox />
+        <TextBox Name="txtBxMainTextView" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextWrapping="Wrap"/>
     </DockPanel>
 </Window>
