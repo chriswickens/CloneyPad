@@ -50,7 +50,7 @@ namespace CloneyPad
             lblCharCount.Content = txtBxMainTextView.Text.Length.ToString();
             hasTextBeenEdited = true;
         }
-        private MessageBoxResult AskAboutUnsavedChanges(/*object sender*//*, ExecutedRoutedEventArgs e*/)
+        private MessageBoxResult AskAboutUnsavedChanges()
         {
             if (!hasFileBeenSaved && hasTextBeenEdited)
             {
@@ -278,7 +278,17 @@ namespace CloneyPad
 
         private void cloneyPadMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            MessageBoxResult exitResult = MessageBoxResult.No;
+            if (!hasFileBeenSaved && hasTextBeenEdited)
+            {
+                // If the user is asked about changes
+                exitResult = AskAboutUnsavedChanges();
+            }
 
+            if(exitResult == MessageBoxResult.Cancel)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }
