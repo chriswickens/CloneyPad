@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,6 +27,7 @@ namespace CloneyPad
         // Fields
         private bool hasFileBeenSaved = false;
         private bool hasTextBeenEdited = false;
+        private bool anySaveSuccess = false;
         private string fileNameOnly = "";
         private string fullPathFileName = "";
 
@@ -51,60 +53,139 @@ namespace CloneyPad
 
         private void cmdNew_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            if (!hasFileBeenSaved && hasTextBeenEdited)
+            {
+                MessageBoxResult createNew = AskAboutUnsavedChanges(sender, e);
+                if (createNew == MessageBoxResult.No || createNew == MessageBoxResult.Yes)
+                {
+                    MessageBox.Show("Clear out file details");
+                    txtBxMainTextView.Text = "";
+                    hasFileBeenSaved = false;
+                    hasTextBeenEdited = false;
+                    fileNameOnly = "";
+                    fullPathFileName = "";
 
+                }
+
+                if (createNew == MessageBoxResult.Cancel)
+                {
+                    MessageBox.Show("User pressed CANCEL, do nothing!");
+                    return;
+                }
+            }
+
+            else
+            {
+                MessageBox.Show("No changes!");
+                txtBxMainTextView.Text = "";
+                hasFileBeenSaved = false;
+                hasTextBeenEdited = false;
+                fileNameOnly = "";
+                fullPathFileName = "";
+            }
         }
 
-        private void cmdOpen_Executed(object sender, ExecutedRoutedEventArgs e)
+        private MessageBoxResult AskAboutUnsavedChanges(object sender, ExecutedRoutedEventArgs e)
         {
             if (!hasFileBeenSaved && hasTextBeenEdited)
             {
                 // Ask user if they want to save the file, because it has been edited:
                 MessageBoxResult askForSave = MessageBox.Show("Warning: This file has not been saved, would you like to save first?",
-                    "WARNING: File has not been saved yet!", MessageBoxButton.YesNoCancel, icon: MessageBoxImage.Exclamation);
-                if (askForSave == MessageBoxResult.Cancel)
+                "WARNING: File has not been saved yet!", MessageBoxButton.YesNoCancel, icon: MessageBoxImage.Exclamation);
+                if (askForSave == MessageBoxResult.No)
                 {
-                    return;
+                    return MessageBoxResult.No;
                 }
 
                 if (askForSave == MessageBoxResult.Yes)
                 {
                     cmdSave_Executed(sender, e);
+                    if (anySaveSuccess)
+                    {
+                        return MessageBoxResult.Yes;
+                    }
+                    return MessageBoxResult.Cancel; // This was NO, but changed it to cancel, because the box for saving only has Ok or cancel
+                }
+            }
+            return MessageBoxResult.No; // This was cancel
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+         * 
+         * 
+         * OPEN WONT RUN WHEN NOTHING HAS BEEN EDITED
+         * 
+         *  SEEMS to be working ok now? The default should be set to NO, then changed after the fact
+         *  
+         *  It was still opening the Open dialog after clicking YES to save, then CANCEL in the save
+         *  I edited the askaboutunsavedchanges - make notes now
+         */
+
+
+        private void cmdOpen_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            // Default to CANCEL
+            MessageBoxResult saveBeforeOpen = MessageBoxResult.No;
+            if (!hasFileBeenSaved && hasTextBeenEdited)
+            {
+                // If the user is asked about changes
+                saveBeforeOpen = AskAboutUnsavedChanges(sender, e);
+            }
+
+            if (saveBeforeOpen != MessageBoxResult.Cancel /*|| saveBeforeOpen==MessageBoxResult.No*/ || anySaveSuccess)
+            {
+                // Create and open the OpenFileDialog
+                OpenFileDialog fileToOpen = new OpenFileDialog();
+                if (fileToOpen.ShowDialog() == true) // If the user clicked OK in the open dialog
+                {
+                    fullPathFileName = fileToOpen.FileName; // Get the full path/name of file
+
+                    try
+                    {
+                        using (StreamReader fileContents = new StreamReader(fullPathFileName))
+                        {
+                            txtBxMainTextView.Text = fileContents.ReadToEnd(); // Put file contents into main text view
+                            fileNameOnly = fileToOpen.SafeFileName; // Store the fileNameOnly (example.txt)
+                            fullPathFileName = fileToOpen.FileName; // Store the full filename and path
+                        }
+
+                        UpdateTitle();
+                    }
+                    catch (FileNotFoundException eX)
+                    {
+                        MessageBox.Show($"The file was not found: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+                    }
+                    catch (DirectoryNotFoundException eX)
+                    {
+                        MessageBox.Show($"The directory was not found: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+                    }
+                    catch (IOException eX)
+                    {
+                        MessageBox.Show($"The file could not be opened: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+                    }
+                    catch (Exception eX)
+                    {
+                        MessageBox.Show($"Uncaught exception: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+                    }
                 }
             }
 
-            // Create and open the OpenFileDialog
-            OpenFileDialog fileToOpen = new OpenFileDialog();
-            if (fileToOpen.ShowDialog() == true) // If the user clicked OK in the open dialog
+            else
             {
-                fullPathFileName = fileToOpen.FileName; // Get the full path/name of file
-
-                try
-                {
-                    using (StreamReader fileContents = new StreamReader(fullPathFileName))
-                    {
-                        txtBxMainTextView.Text = fileContents.ReadToEnd(); // Put file contents into main text view
-                        fileNameOnly = fileToOpen.SafeFileName; // Store the fileNameOnly (example.txt)
-                        fullPathFileName = fileToOpen.FileName; // Store the full filename and path
-                    }
-
-                    UpdateTitle();
-                }
-                catch (FileNotFoundException eX)
-                {
-                    MessageBox.Show($"The file was not found: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
-                }
-                catch (DirectoryNotFoundException eX)
-                {
-                    MessageBox.Show($"The directory was not found: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
-                }
-                catch (IOException eX)
-                {
-                    MessageBox.Show($"The file could not be opened: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
-                }
-                catch (Exception eX)
-                {
-                    MessageBox.Show($"Uncaught exception: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
-                }
+                return;
             }
         }
 
@@ -125,6 +206,7 @@ namespace CloneyPad
 
                 hasFileBeenSaved = true;
                 hasTextBeenEdited = false;
+                anySaveSuccess = true;
                 UpdateTitle();
             }
             catch (FileNotFoundException eX)
@@ -170,6 +252,7 @@ namespace CloneyPad
                     fileNameOnly = saveFileAs.SafeFileName;
                     hasFileBeenSaved = true;
                     hasTextBeenEdited = false;
+                    anySaveSuccess = true;
                     UpdateTitle();
                 }
 
@@ -191,6 +274,7 @@ namespace CloneyPad
                 }
 
             }
+            anySaveSuccess = false;
         }
 
         private void cmdSaveAs_CanExecute(object sender, CanExecuteRoutedEventArgs e)
