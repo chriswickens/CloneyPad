@@ -5,8 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CloneyPad"
         mc:Ignorable="d"
-        Title="About CloneyPad" Height="200" Width="200" WindowStyle="ToolWindow" ResizeMode="NoResize" Topmost="True">
+        Title="About CloneyPad" 
+        BorderBrush="Azure"
+        BorderThickness="2"
+        Background="AliceBlue" 
+        Height="300" Width="300" 
+        ResizeMode="NoResize" 
+        Topmost="True" 
+        WindowStartupLocation="CenterOwner">
+
     <Grid>
-        <Button Name="btnAbout_Close" Height="100" Width="150" Content="Close About Window!" Click="btnAbout_Close_Click"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontWeight="Heavy" FontSize="20">CloneyPad</TextBlock>
+        <TextBox  Grid.Row="1" Name="txtBxAboutText" IsEnabled="False"></TextBox>
+        <Button Margin="10" Grid.Row="2" Name="btnAbout_Close" Height="Auto" Width="50" Content="Close" Click="btnAbout_Close_Click"/>
+
     </Grid>
+
+
+
 </Window>

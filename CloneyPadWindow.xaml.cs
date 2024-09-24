@@ -50,6 +50,7 @@ namespace CloneyPad
             lblCharCount.Content = txtBxMainTextView.Text.Length.ToString();
             hasTextBeenEdited = true;
         }
+
         private MessageBoxResult AskAboutUnsavedChanges()
         {
             if (!hasFileBeenSaved && hasTextBeenEdited)
@@ -73,6 +74,21 @@ namespace CloneyPad
                 }
             }
             return MessageBoxResult.Cancel;
+        }
+
+        private void cloneyPadMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MessageBoxResult exitResult = MessageBoxResult.No;
+            if (!hasFileBeenSaved && hasTextBeenEdited)
+            {
+                // If the user is asked about changes
+                exitResult = AskAboutUnsavedChanges();
+            }
+
+            if (exitResult == MessageBoxResult.Cancel)
+            {
+                e.Cancel = true;
+            }
         }
 
         private void cmdNew_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -268,21 +284,6 @@ namespace CloneyPad
         {
             Window aboutWindow = new AboutWindow();
             aboutWindow.ShowDialog();
-        }
-
-        private void cloneyPadMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            MessageBoxResult exitResult = MessageBoxResult.No;
-            if (!hasFileBeenSaved && hasTextBeenEdited)
-            {
-                // If the user is asked about changes
-                exitResult = AskAboutUnsavedChanges();
-            }
-
-            if(exitResult == MessageBoxResult.Cancel)
-            {
-                e.Cancel = true;
-            }
         }
     }
 }

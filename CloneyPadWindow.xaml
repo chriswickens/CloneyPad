@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CloneyPad"
         mc:Ignorable="d"
-        Title="CloneyPad - Untitled" Height="450" Width="800" Closing="cloneyPadMainWindow_Closing">
+        Title="CloneyPad - Untitled" Height="450" Width="800" WindowStartupLocation="CenterScreen" Closing="cloneyPadMainWindow_Closing">
 
     <Window.CommandBindings>
         <!-- File Menu Commands -->
@@ -47,7 +47,7 @@
                     Command="ApplicationCommands.SaveAs"/>
                 <MenuItem
                     Name="mnuFile_Exit"
-                    Header="Exit"
+                    Header="E_xit"
                     Click="mnuFile_Exit_Click"/>
                 <!--Click=""-->
             </MenuItem>
