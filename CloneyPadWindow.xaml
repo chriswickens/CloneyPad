@@ -12,11 +12,11 @@
         <CommandBinding x:Name="cmdNew" Command="ApplicationCommands.New"
                         Executed="cmdNew_Executed"
                         CanExecute="cmdNew_CanExecute"/>
-        
+
         <CommandBinding x:Name="cmdOpen" Command="ApplicationCommands.Open"
                         Executed="cmdOpen_Executed"
                         CanExecute="cmdOpen_CanExecute"/>
-        
+
         <CommandBinding x:Name="cmdSave" Command="ApplicationCommands.Save"
                         Executed="cmdSave_Executed"
                         CanExecute="cmdSave_CanExecute"/>
@@ -24,22 +24,8 @@
         <CommandBinding x:Name="cmdSaveAs" Command="ApplicationCommands.SaveAs"
                         Executed="cmdSaveAs_Executed"
                         CanExecute="cmdSaveAs_CanExecute"/>
-        
-        <!-- Edit Menu Commands -->
-        <CommandBinding x:Name="cmdCut" Command="ApplicationCommands.Cut"
-                        Executed="cmdCut_Executed"
-                        CanExecute="cmdCut_CanExecute"/>
-
-        <CommandBinding x:Name="cmdCopy" Command="ApplicationCommands.Copy"
-                        Executed="cmdCopy_Executed"
-                        CanExecute="cmdCopy_CanExecute"/>
-
-        <CommandBinding x:Name="cmdPaste" Command="ApplicationCommands.Paste"
-                        Executed="cmdPaste_Executed"
-                        CanExecute="cmdPaste_CanExecute"/>
-
     </Window.CommandBindings>
-    
+
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <!-- File Menu -->
@@ -67,17 +53,21 @@
                 <MenuItem
                     Name="mnuEdit_Cut"
                     Header="_Cut"
-                    Command="ApplicationCommands.Cut"/>
+                    Command="ApplicationCommands.Cut"
+                    CommandTarget="{Binding ElementName=txtBxMainTextView}"/>
                 <MenuItem
                     Name="mnuEdit_Copy"
                     Header="C_opy"
-                    Command="ApplicationCommands.Copy"/>
+                    Command="ApplicationCommands.Copy"
+                    CommandTarget="{Binding ElementName=txtBxMainTextView}"/>
                 <MenuItem
                     Name="mnuEdit_Paste"
                     Header="_Paste"
-                    Command="ApplicationCommands.Paste"/>
+                    Command="ApplicationCommands.Paste"
+                    CommandTarget="{Binding ElementName=txtBxMainTextView}"/>
+
             </MenuItem>
-            
+
             <!-- About Menu -->
             <MenuItem 
                 Name="mnuAbout"
