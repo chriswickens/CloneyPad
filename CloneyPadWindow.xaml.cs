@@ -127,10 +127,10 @@ namespace CloneyPad
                 cmdSaveAs_Executed(sender, e);
                 return;
             }
-            SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.Filter = fileDialogTypes;
-            saveFile.FileName = fullPathFileName;
-            fileNameOnly = saveFile.SafeFileName;
+            //SaveFileDialog saveFile = new SaveFileDialog();
+            //saveFile.Filter = fileDialogTypes;
+            //saveFile.FileName = fullPathFileName;
+            //fileNameOnly = saveFile.SafeFileName;
             try
             {
                 using (StreamWriter writeText = new StreamWriter(fullPathFileName))
@@ -175,7 +175,31 @@ namespace CloneyPad
 
             if (saveFileAs.ShowDialog() == true)
             {
-                File.WriteAllText(saveFileAs.FileName, txtBxMainTextView.Text);
+                try
+                {
+                    using (StreamWriter writeText = new StreamWriter(saveFileAs.FileName))
+                    {
+                        writeText.Write(txtBxMainTextView.Text);
+                    }
+                }
+
+                catch (FileNotFoundException eX)
+                {
+                    MessageBox.Show($"The file was not found: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+                }
+                catch (DirectoryNotFoundException eX)
+                {
+                    MessageBox.Show($"The directory was not found: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+                }
+                catch (IOException eX)
+                {
+                    MessageBox.Show($"The file could not be opened: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                //File.WriteAllText(saveFileAs.FileName, txtBxMainTextView.Text);
                 fullPathFileName = saveFileAs.FileName;
                 fileNameOnly = saveFileAs.SafeFileName;
                 hasFileBeenSaved = true;
