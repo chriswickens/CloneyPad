@@ -122,6 +122,10 @@ namespace CloneyPad
                 {
                     writeText.Write(txtBxMainTextView.Text);
                 }
+
+                hasFileBeenSaved = true;
+                hasTextBeenEdited = false;
+                UpdateTitle();
             }
             catch (FileNotFoundException eX)
             {
@@ -139,9 +143,7 @@ namespace CloneyPad
             {
                 MessageBox.Show($"Uncaught exception: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
             }
-            hasFileBeenSaved = true;
-            hasTextBeenEdited = false;
-            UpdateTitle();
+
         }
 
         private void cmdSave_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -163,6 +165,12 @@ namespace CloneyPad
                     {
                         writeText.Write(txtBxMainTextView.Text);
                     }
+
+                    fullPathFileName = saveFileAs.FileName;
+                    fileNameOnly = saveFileAs.SafeFileName;
+                    hasFileBeenSaved = true;
+                    hasTextBeenEdited = false;
+                    UpdateTitle();
                 }
 
                 catch (FileNotFoundException eX)
@@ -181,12 +189,7 @@ namespace CloneyPad
                 {
                     MessageBox.Show($"Uncaught exception: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
                 }
-                //File.WriteAllText(saveFileAs.FileName, txtBxMainTextView.Text);
-                fullPathFileName = saveFileAs.FileName;
-                fileNameOnly = saveFileAs.SafeFileName;
-                hasFileBeenSaved = true;
-                hasTextBeenEdited = false;
-                UpdateTitle();
+
             }
         }
 
