@@ -31,7 +31,7 @@ namespace CloneyPad
         private string fileNameOnly = "";
         private string fullPathFileName = "";
 
-        // Prevent repeated typing
+        // Supported file types (default .txt, and *.*)
         string fileDialogTypes = "Text file (*.txt)|*.txt|All files *|*.*";
 
         public CloneyPadWindow()
@@ -50,50 +50,6 @@ namespace CloneyPad
             lblCharCount.Content = txtBxMainTextView.Text.Length.ToString();
             hasTextBeenEdited = true;
         }
-
-
-
-        /*
-         * 
-         * 
-         * 
-         * 
-         * NEW BUG, cancel will clear out the text for some reason?...
-         */
-        private void cmdNew_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (!hasFileBeenSaved && hasTextBeenEdited)
-            {
-                MessageBoxResult createNew = AskAboutUnsavedChanges(sender, e);
-                if (createNew == MessageBoxResult.No || createNew == MessageBoxResult.Yes)
-                {
-                    //MessageBox.Show("Clear out file details");
-                    txtBxMainTextView.Text = "";
-                    hasFileBeenSaved = false;
-                    hasTextBeenEdited = false;
-                    fileNameOnly = "";
-                    fullPathFileName = "";
-
-                }
-
-                if (createNew == MessageBoxResult.Cancel)
-                {
-                    MessageBox.Show("User pressed CANCEL, do nothing!");
-                    return;
-                }
-            }
-
-            else
-            {
-                //MessageBox.Show("No changes!");
-                txtBxMainTextView.Text = "";
-                hasFileBeenSaved = false;
-                hasTextBeenEdited = false;
-                fileNameOnly = "";
-                fullPathFileName = "";
-            }
-        }
-
         private MessageBoxResult AskAboutUnsavedChanges(object sender, ExecutedRoutedEventArgs e)
         {
             if (!hasFileBeenSaved && hasTextBeenEdited)
@@ -113,37 +69,41 @@ namespace CloneyPad
                     {
                         return MessageBoxResult.Yes;
                     }
-                    return MessageBoxResult.Cancel; // This was NO, but changed it to cancel, because the box for saving only has Ok or cancel
+                    return MessageBoxResult.Cancel;
                 }
             }
-            return MessageBoxResult.Cancel; // This was cancel
+            return MessageBoxResult.Cancel;
         }
 
+        private void cmdNew_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (!hasFileBeenSaved && hasTextBeenEdited)
+            {
+                MessageBoxResult createNew = AskAboutUnsavedChanges(sender, e);
+                if (createNew == MessageBoxResult.No || createNew == MessageBoxResult.Yes)
+                {
+                    txtBxMainTextView.Text = "";
+                    hasFileBeenSaved = false;
+                    hasTextBeenEdited = false;
+                    fileNameOnly = "";
+                    fullPathFileName = "";
+                }
 
+                if (createNew == MessageBoxResult.Cancel)
+                {
+                    return;
+                }
+            }
 
-
-
-
-
-
-
-
-
-
-
-
-        /*
-         * 
-         * 
-         * OPEN WONT RUN WHEN NOTHING HAS BEEN EDITED
-         * 
-         *  SEEMS to be working ok now? The default should be set to NO, then changed after the fact
-         *  
-         *  It was still opening the Open dialog after clicking YES to save, then CANCEL in the save
-         *  I edited the askaboutunsavedchanges - make notes now
-         *  
-         *  you had to change it  back for the NEW file dialog to fix the issue there, time to RETROUBLESHOOT this!
-         */
+            else
+            {
+                txtBxMainTextView.Text = "";
+                hasFileBeenSaved = false;
+                hasTextBeenEdited = false;
+                fileNameOnly = "";
+                fullPathFileName = "";
+            }
+        }
 
 
         private void cmdOpen_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -156,6 +116,7 @@ namespace CloneyPad
                 saveBeforeOpen = AskAboutUnsavedChanges(sender, e);
             }
 
+            // Show the OpenFileDialog if the user clicked anything other than Cancel
             if (saveBeforeOpen == MessageBoxResult.No || saveBeforeOpen == MessageBoxResult.Yes)
             {
                 // Create and open the OpenFileDialog
@@ -239,16 +200,16 @@ namespace CloneyPad
 
         }
 
-        private void cmdSave_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true; // Is this needed?
-        }
+        //private void cmdSave_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        //{
+        //    e.CanExecute = true; // Is this needed?
+        //}
 
         private void cmdSaveAs_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             SaveFileDialog saveFileAs = new SaveFileDialog();
             saveFileAs.Filter = fileDialogTypes;
-            saveFileAs.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            saveFileAs.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments); // Default to MyDocuments
 
             if (saveFileAs.ShowDialog() == true)
             {
@@ -289,12 +250,18 @@ namespace CloneyPad
             {
                 anySaveSuccess = false;
             }
-
         }
 
         private void cmdSaveAs_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true; // Should this ever not be selectable?
+            if (anySaveSuccess)
+            {
+                e.CanExecute = true;
+            }
+            else
+            {
+                e.CanExecute = false;
+            }
         }
 
         private void mnuFile_Exit_Click(object sender, RoutedEventArgs e)
@@ -306,6 +273,11 @@ namespace CloneyPad
         {
             Window aboutWindow = new AboutWindow();
             aboutWindow.ShowDialog();
+        }
+
+        private void cloneyPadMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
         }
     }
 }

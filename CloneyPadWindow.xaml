@@ -1,11 +1,11 @@
-﻿<Window x:Class="CloneyPad.CloneyPadWindow"
+﻿<Window x:Name="cloneyPadMainWindow" x:Class="CloneyPad.CloneyPadWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CloneyPad"
         mc:Ignorable="d"
-        Title="CloneyPad - Untitled" Height="450" Width="800">
+        Title="CloneyPad - Untitled" Height="450" Width="800" Closing="cloneyPadMainWindow_Closing">
 
     <Window.CommandBindings>
         <!-- File Menu Commands -->
@@ -17,8 +17,8 @@
                         Executed="cmdOpen_Executed"/>
 
         <CommandBinding x:Name="cmdSave" Command="ApplicationCommands.Save"
-                        Executed="cmdSave_Executed"
-                        CanExecute="cmdSave_CanExecute"/>
+                        Executed="cmdSave_Executed"/>
+        <!--CanExecute="cmdSave_CanExecute"/>-->
 
         <CommandBinding x:Name="cmdSaveAs" Command="ApplicationCommands.SaveAs"
                         Executed="cmdSaveAs_Executed"
