@@ -26,7 +26,6 @@ namespace CloneyPad
         // Fields
         private bool hasFileBeenSaved = false;
         private bool hasTextBeenEdited = false;
-        //private string originalText = "";
         private string fileNameOnly = "";
         private string fullPathFileName = "";
 
@@ -38,6 +37,7 @@ namespace CloneyPad
         private void txtBxMainTextView_TextChanged(object sender, TextChangedEventArgs e)
         {
             lblCharCount.Content = txtBxMainTextView.Text.Length.ToString();
+            hasFileBeenSaved = false;
         }
 
         private void cmdNew_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -52,20 +52,18 @@ namespace CloneyPad
 
         private void cmdOpen_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            //if (!hasFileBeenSaved)
-            //{
-            //    MessageBox.Show("This is where you ask the user if they want to save the file!");
-            //}
+            if (!hasFileBeenSaved)
+            {
+                MessageBox.Show("This is where you ask the user if they want to save the file!");
+            }
 
             // Create and open the OpenFileDialog
             OpenFileDialog fileToOpen = new OpenFileDialog();
             if (fileToOpen.ShowDialog() == true) // If the user clicked OK in the open dialog
             {
                 fullPathFileName = fileToOpen.FileName; // Get the full path/name of file
-
                 StreamReader fileContents = new StreamReader(fullPathFileName); // Open a StreamReader
                 txtBxMainTextView.Text = fileContents.ReadToEnd(); // Put file contents into main text view
-                //originalText = txtBxMainTextView.Text; // Used for comparing changes in text
                 fileNameOnly = fileToOpen.SafeFileName; // Store the fileNameOnly (example.txt)
                 fullPathFileName = fileToOpen.FileName; // Store the full filename and path
                 fileContents.Close();
@@ -79,7 +77,7 @@ namespace CloneyPad
 
         private void cmdSave_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (!hasFileBeenSaved)
+            if (!hasFileBeenSaved && fullPathFileName == "")
             {
                 cmdSaveAs_Executed(sender, e);
                 return;
@@ -88,11 +86,8 @@ namespace CloneyPad
             SaveFileDialog saveFile = new SaveFileDialog();
             saveFile.Filter = "Text file (*.txt)|*.txt|All files *|*.*";
             saveFile.FileName = fullPathFileName;
-
             File.WriteAllText(saveFile.FileName, txtBxMainTextView.Text);
             hasFileBeenSaved = true;
-
-
         }
 
         private void cmdSave_CanExecute(object sender, CanExecuteRoutedEventArgs e)
