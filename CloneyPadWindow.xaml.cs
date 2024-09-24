@@ -26,8 +26,8 @@ namespace CloneyPad
         // Fields
         private bool hasFileBeenSaved = false;
         private bool hasTextBeenEdited = false;
-        private string originalText = "";
-        private string fileName = "untitled.txt";
+        //private string originalText = "";
+        private string fileNameOnly = "";
         private string fullPathFileName = "";
 
         public CloneyPadWindow()
@@ -59,18 +59,19 @@ namespace CloneyPad
 
             // Create and open the OpenFileDialog
             OpenFileDialog fileToOpen = new OpenFileDialog();
-            if(fileToOpen.ShowDialog() == true) // If the user clicked OK in the open dialog
+            if (fileToOpen.ShowDialog() == true) // If the user clicked OK in the open dialog
             {
                 fullPathFileName = fileToOpen.FileName; // Get the full path/name of file
 
                 StreamReader fileContents = new StreamReader(fullPathFileName); // Open a StreamReader
                 txtBxMainTextView.Text = fileContents.ReadToEnd(); // Put file contents into main text view
-                fileName = fileToOpen.SafeFileName; // Store the fileName (example.txt)
+                //originalText = txtBxMainTextView.Text; // Used for comparing changes in text
+                fileNameOnly = fileToOpen.SafeFileName; // Store the fileNameOnly (example.txt)
                 fullPathFileName = fileToOpen.FileName; // Store the full filename and path
                 fileContents.Close();
 
                 // Add the filename to the Title
-                Title = Title.Substring(0, 12) + fileName;
+                Title = Title.Substring(0, 12) + fileNameOnly;
 
             }
             //MessageBox.Show($"File: {fullPathFileName}");
@@ -78,29 +79,43 @@ namespace CloneyPad
 
         private void cmdSave_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            if (!hasFileBeenSaved)
+            {
+                cmdSaveAs_Executed(sender, e);
+                return;
+            }
+
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.Filter = "Text file (*.txt)|*.txt|All files *|*.*";
+            saveFile.FileName = fullPathFileName;
+
+            File.WriteAllText(saveFile.FileName, txtBxMainTextView.Text);
+            hasFileBeenSaved = true;
+
 
         }
 
         private void cmdSave_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            //if (!hasFileBeenSaved)
-            //{
-            //    MessageBox.Show("Show the user the SAVE AS dialog in this case!");
-            //}
+            e.CanExecute = true;
         }
 
         private void cmdSaveAs_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             SaveFileDialog saveFileAs = new SaveFileDialog();
-            if(saveFileAs.ShowDialog() == true)
+            saveFileAs.Filter = "Text file (*.txt)|*.txt|All files *|*.*";
+            saveFileAs.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (saveFileAs.ShowDialog() == true)
             {
                 File.WriteAllText(saveFileAs.FileName, txtBxMainTextView.Text);
+                fullPathFileName = saveFileAs.FileName;
+                hasFileBeenSaved = true;
             }
         }
 
         private void cmdSaveAs_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            e.CanExecute = true; // Should this ever not be selectable?
         }
 
         private void mnuFile_Exit_Click(object sender, RoutedEventArgs e)
