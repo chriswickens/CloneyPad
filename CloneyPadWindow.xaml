@@ -24,6 +24,19 @@
         <CommandBinding x:Name="cmdSaveAs" Command="ApplicationCommands.SaveAs"
                         Executed="cmdSaveAs_Executed"
                         CanExecute="cmdSaveAs_CanExecute"/>
+        
+        <!-- Edit Menu Commands -->
+        <CommandBinding x:Name="cmdCut" Command="ApplicationCommands.Cut"
+                        Executed="cmdCut_Executed"
+                        CanExecute="cmdCut_CanExecute"/>
+
+        <CommandBinding x:Name="cmdCopy" Command="ApplicationCommands.Copy"
+                        Executed="cmdCopy_Executed"
+                        CanExecute="cmdCopy_CanExecute"/>
+
+        <CommandBinding x:Name="cmdPaste" Command="ApplicationCommands.Paste"
+                        Executed="cmdPaste_Executed"
+                        CanExecute="cmdPaste_CanExecute"/>
 
     </Window.CommandBindings>
     
