@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="CloneyPad" Height="450" Width="800">
     <DockPanel>
-        <Menu>
+        <Menu DockPanel.Dock="Top">
             <!-- File Menu -->
             <MenuItem Header="_File">
                 <MenuItem Header="_New"/>
@@ -24,5 +24,14 @@
             </MenuItem>
             <MenuItem Header="_About"/>
         </Menu>
+        
+        <!-- Status Bar -->
+        <StatusBar Height="20" DockPanel.Dock="Bottom">
+            <Label Margin="0,-10,-12,-10" Width="50" Content="Length:"/>
+            <Label Margin="0,-10,0,-10" Width="Auto" Content="74839"/>
+        </StatusBar>
+        
+        <!-- TextBox Document View -->
+        <TextBox></TextBox>
     </DockPanel>
 </Window>
