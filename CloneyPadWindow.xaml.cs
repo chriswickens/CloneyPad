@@ -29,5 +29,47 @@ namespace CloneyPad
         {
             lblCharCount.Content = txtBxMainTextView.Text.Length.ToString();
         }
+
+        private void cmdNew_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+
+        private void cmdNew_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+
+        }
+
+
+        private void cmdOpen_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void cmdOpen_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+
+        }
+
+        private void cmdSave_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void cmdSave_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+
+        }
+
+        private void cmdSaveAs_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void cmdSaveAs_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+
+        }
     }
 }

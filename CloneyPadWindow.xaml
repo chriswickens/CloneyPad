@@ -6,6 +6,26 @@
         xmlns:local="clr-namespace:CloneyPad"
         mc:Ignorable="d"
         Title="CloneyPad" Height="450" Width="800">
+
+    <Window.CommandBindings>
+        <!-- File Menu Commands -->
+        <CommandBinding x:Name="cmdNew" Command="ApplicationCommands.New"
+                        Executed="cmdNew_Executed"
+                        CanExecute="cmdNew_CanExecute"/>
+        
+        <CommandBinding x:Name="cmdOpen" Command="ApplicationCommands.Open"
+                        Executed="cmdOpen_Executed"
+                        CanExecute="cmdOpen_CanExecute"/>
+        
+        <CommandBinding x:Name="cmdSave" Command="ApplicationCommands.Save"
+                        Executed="cmdSave_Executed"
+                        CanExecute="cmdSave_CanExecute"/>
+
+        <CommandBinding x:Name="cmdSaveAs" Command="ApplicationCommands.SaveAs"
+                        Executed="cmdSaveAs_Executed"
+                        CanExecute="cmdSaveAs_CanExecute"/>
+
+    </Window.CommandBindings>
     
     <DockPanel>
         <Menu DockPanel.Dock="Top">
