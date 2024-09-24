@@ -51,6 +51,15 @@ namespace CloneyPad
             hasTextBeenEdited = true;
         }
 
+
+
+        /*
+         * 
+         * 
+         * 
+         * 
+         * NEW BUG, cancel will clear out the text for some reason?...
+         */
         private void cmdNew_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (!hasFileBeenSaved && hasTextBeenEdited)
@@ -58,7 +67,7 @@ namespace CloneyPad
                 MessageBoxResult createNew = AskAboutUnsavedChanges(sender, e);
                 if (createNew == MessageBoxResult.No || createNew == MessageBoxResult.Yes)
                 {
-                    MessageBox.Show("Clear out file details");
+                    //MessageBox.Show("Clear out file details");
                     txtBxMainTextView.Text = "";
                     hasFileBeenSaved = false;
                     hasTextBeenEdited = false;
@@ -76,7 +85,7 @@ namespace CloneyPad
 
             else
             {
-                MessageBox.Show("No changes!");
+                //MessageBox.Show("No changes!");
                 txtBxMainTextView.Text = "";
                 hasFileBeenSaved = false;
                 hasTextBeenEdited = false;
@@ -94,7 +103,7 @@ namespace CloneyPad
                 "WARNING: File has not been saved yet!", MessageBoxButton.YesNoCancel, icon: MessageBoxImage.Exclamation);
                 if (askForSave == MessageBoxResult.No)
                 {
-                    return MessageBoxResult.No;
+                    return askForSave;
                 }
 
                 if (askForSave == MessageBoxResult.Yes)
@@ -107,7 +116,7 @@ namespace CloneyPad
                     return MessageBoxResult.Cancel; // This was NO, but changed it to cancel, because the box for saving only has Ok or cancel
                 }
             }
-            return MessageBoxResult.No; // This was cancel
+            return MessageBoxResult.Cancel; // This was cancel
         }
 
 
@@ -132,6 +141,8 @@ namespace CloneyPad
          *  
          *  It was still opening the Open dialog after clicking YES to save, then CANCEL in the save
          *  I edited the askaboutunsavedchanges - make notes now
+         *  
+         *  you had to change it  back for the NEW file dialog to fix the issue there, time to RETROUBLESHOOT this!
          */
 
 
@@ -145,7 +156,7 @@ namespace CloneyPad
                 saveBeforeOpen = AskAboutUnsavedChanges(sender, e);
             }
 
-            if (saveBeforeOpen != MessageBoxResult.Cancel /*|| saveBeforeOpen==MessageBoxResult.No*/ || anySaveSuccess)
+            if (saveBeforeOpen == MessageBoxResult.No || saveBeforeOpen == MessageBoxResult.Yes)
             {
                 // Create and open the OpenFileDialog
                 OpenFileDialog fileToOpen = new OpenFileDialog();
@@ -274,7 +285,11 @@ namespace CloneyPad
                 }
 
             }
-            anySaveSuccess = false;
+            else
+            {
+                anySaveSuccess = false;
+            }
+
         }
 
         private void cmdSaveAs_CanExecute(object sender, CanExecuteRoutedEventArgs e)
