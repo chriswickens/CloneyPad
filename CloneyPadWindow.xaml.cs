@@ -18,8 +18,13 @@ namespace CloneyPad
     /// <summary>
     /// Interaction logic for CloneyPadWindow.xaml
     /// </summary>
+
     public partial class CloneyPadWindow : Window
     {
+        // Fields
+        private bool hasFileBeenSaved = false;
+        private string fileName = "untitled.txt";
+
         public CloneyPadWindow()
         {
             InitializeComponent();

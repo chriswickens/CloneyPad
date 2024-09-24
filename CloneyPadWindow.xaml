@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CloneyPad"
         mc:Ignorable="d"
-        Title="CloneyPad" Height="450" Width="800">
+        Title="CloneyPad - Untitled" Height="450" Width="800">
 
     <Window.CommandBindings>
         <!-- File Menu Commands -->
