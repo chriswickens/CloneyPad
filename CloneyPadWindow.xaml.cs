@@ -29,15 +29,24 @@ namespace CloneyPad
         private string fileNameOnly = "";
         private string fullPathFileName = "";
 
+        // Prevent repeated typing
+        string fileDialogTypes = "Text file (*.txt)|*.txt|All files *|*.*";
+
         public CloneyPadWindow()
         {
             InitializeComponent();
         }
 
+        // Used to update the title
+        private void UpdateTitle()
+        {
+            Title = "CloneyPad - " + fileNameOnly;
+        }
+
         private void txtBxMainTextView_TextChanged(object sender, TextChangedEventArgs e)
         {
             lblCharCount.Content = txtBxMainTextView.Text.Length.ToString();
-            hasFileBeenSaved = false;
+            hasTextBeenEdited = true;
         }
 
         private void cmdNew_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -52,9 +61,20 @@ namespace CloneyPad
 
         private void cmdOpen_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (!hasFileBeenSaved)
+            if (!hasFileBeenSaved && hasTextBeenEdited)
             {
-                MessageBox.Show("This is where you ask the user if they want to save the file!");
+                // Ask user if they want to save the file, because it has been edited:
+                MessageBoxResult askForSave = MessageBox.Show("Warning: This file has not been saved, would you like to save first?",
+                    "WARNING: File has not been saved yet!", MessageBoxButton.YesNoCancel, icon: MessageBoxImage.Exclamation);
+                if (askForSave == MessageBoxResult.Cancel)
+                {
+                    return;
+                }
+
+                if (askForSave == MessageBoxResult.Yes)
+                {
+                    cmdSave_Executed(sender, e);
+                }
             }
 
             // Create and open the OpenFileDialog
@@ -62,17 +82,42 @@ namespace CloneyPad
             if (fileToOpen.ShowDialog() == true) // If the user clicked OK in the open dialog
             {
                 fullPathFileName = fileToOpen.FileName; // Get the full path/name of file
-                StreamReader fileContents = new StreamReader(fullPathFileName); // Open a StreamReader
-                txtBxMainTextView.Text = fileContents.ReadToEnd(); // Put file contents into main text view
-                fileNameOnly = fileToOpen.SafeFileName; // Store the fileNameOnly (example.txt)
-                fullPathFileName = fileToOpen.FileName; // Store the full filename and path
-                fileContents.Close();
+
+                try
+                {
+                    using (StreamReader fileContents = new StreamReader(fullPathFileName))
+                    {
+                        txtBxMainTextView.Text = fileContents.ReadToEnd(); // Put file contents into main text view
+                        fileNameOnly = fileToOpen.SafeFileName; // Store the fileNameOnly (example.txt)
+                        fullPathFileName = fileToOpen.FileName; // Store the full filename and path
+                    }
+                }
+                catch (FileNotFoundException eX)
+                {
+                    MessageBox.Show($"The file was not found: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+                }
+                catch (DirectoryNotFoundException eX)
+                {
+                    MessageBox.Show($"The directory was not found: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+                }
+                catch (IOException eX)
+                {
+                    MessageBox.Show($"The file could not be opened: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                //StreamReader fileContents = new StreamReader(fullPathFileName); // Open a StreamReader
+
+
+                //fileContents.Close();
 
                 // Add the filename to the Title
-                Title = Title.Substring(0, 12) + fileNameOnly;
-
+                //Title = Title.Substring(0, 12) + fileNameOnly;
+                UpdateTitle();
             }
-            //MessageBox.Show($"File: {fullPathFileName}");
         }
 
         private void cmdSave_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -82,29 +127,60 @@ namespace CloneyPad
                 cmdSaveAs_Executed(sender, e);
                 return;
             }
-
             SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.Filter = "Text file (*.txt)|*.txt|All files *|*.*";
+            saveFile.Filter = fileDialogTypes;
             saveFile.FileName = fullPathFileName;
-            File.WriteAllText(saveFile.FileName, txtBxMainTextView.Text);
+            fileNameOnly = saveFile.SafeFileName;
+            try
+            {
+                using (StreamWriter writeText = new StreamWriter(fullPathFileName))
+                {
+                    writeText.Write(txtBxMainTextView.Text);
+                }
+            }
+            catch (FileNotFoundException eX)
+            {
+                MessageBox.Show($"The file was not found: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+            }
+            catch (DirectoryNotFoundException eX)
+            {
+                MessageBox.Show($"The directory was not found: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+            }
+            catch (IOException eX)
+            {
+                MessageBox.Show($"The file could not be opened: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            //File.WriteAllText(saveFile.FileName, txtBxMainTextView.Text);
             hasFileBeenSaved = true;
+            hasTextBeenEdited = false;
+            UpdateTitle();
         }
 
         private void cmdSave_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            e.CanExecute = true; // Is this needed?
         }
 
         private void cmdSaveAs_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             SaveFileDialog saveFileAs = new SaveFileDialog();
-            saveFileAs.Filter = "Text file (*.txt)|*.txt|All files *|*.*";
+            saveFileAs.Filter = fileDialogTypes;
             saveFileAs.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
             if (saveFileAs.ShowDialog() == true)
             {
                 File.WriteAllText(saveFileAs.FileName, txtBxMainTextView.Text);
                 fullPathFileName = saveFileAs.FileName;
+                fileNameOnly = saveFileAs.SafeFileName;
                 hasFileBeenSaved = true;
+                hasTextBeenEdited = false;
+                UpdateTitle();
             }
         }
 
