@@ -10,8 +10,8 @@
     <Window.CommandBindings>
         <!-- File Menu Commands -->
         <CommandBinding x:Name="cmdNew" Command="ApplicationCommands.New"
-                        Executed="cmdNew_Executed"
-                        CanExecute="cmdNew_CanExecute"/>
+                        Executed="cmdNew_Executed"/>
+        <!--CanExecute="cmdNew_CanExecute"-->
 
         <CommandBinding x:Name="cmdOpen" Command="ApplicationCommands.Open"
                         Executed="cmdOpen_Executed"/>

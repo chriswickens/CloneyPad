@@ -25,7 +25,10 @@ namespace CloneyPad
     {
         // Fields
         private bool hasFileBeenSaved = false;
+        private bool hasTextBeenEdited = false;
+        private string originalText = "";
         private string fileName = "untitled.txt";
+        private string fullPathFileName = "";
 
         public CloneyPadWindow()
         {
@@ -42,33 +45,35 @@ namespace CloneyPad
 
         }
 
-        private void cmdNew_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            // Do you need this? I don't think so, remove it later.
-        }
+        //private void cmdNew_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        //{
+        //    // Do you need this? I don't think so, remove it later.
+        //}
 
         private void cmdOpen_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            string filePath = "";
             //if (!hasFileBeenSaved)
             //{
             //    MessageBox.Show("This is where you ask the user if they want to save the file!");
             //}
 
             // Create and open the OpenFileDialog
-            OpenFileDialog openFile = new OpenFileDialog();
-            if(openFile.ShowDialog() == true) // If the user clicked OK in the open dialog
+            OpenFileDialog fileToOpen = new OpenFileDialog();
+            if(fileToOpen.ShowDialog() == true) // If the user clicked OK in the open dialog
             {
-                filePath = openFile.FileName; // Get the full path/name of file
+                fullPathFileName = fileToOpen.FileName; // Get the full path/name of file
 
-                StreamReader fileContents = new StreamReader(filePath);
-                txtBxMainTextView.Text = fileContents.ReadToEnd();
-
+                StreamReader fileContents = new StreamReader(fullPathFileName); // Open a StreamReader
+                txtBxMainTextView.Text = fileContents.ReadToEnd(); // Put file contents into main text view
+                fileName = fileToOpen.SafeFileName; // Store the fileName (example.txt)
+                fullPathFileName = fileToOpen.FileName; // Store the full filename and path
                 fileContents.Close();
-                // 12 characters before filename in title
+
+                // Add the filename to the Title
+                Title = Title.Substring(0, 12) + fileName;
 
             }
-            //MessageBox.Show($"File: {filePath}");
+            //MessageBox.Show($"File: {fullPathFileName}");
         }
 
         private void cmdSave_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -78,17 +83,24 @@ namespace CloneyPad
 
         private void cmdSave_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-
+            //if (!hasFileBeenSaved)
+            //{
+            //    MessageBox.Show("Show the user the SAVE AS dialog in this case!");
+            //}
         }
 
         private void cmdSaveAs_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
+            SaveFileDialog saveFileAs = new SaveFileDialog();
+            if(saveFileAs.ShowDialog() == true)
+            {
+                File.WriteAllText(saveFileAs.FileName, txtBxMainTextView.Text);
+            }
         }
 
         private void cmdSaveAs_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-
+            e.CanExecute = true;
         }
 
         private void mnuFile_Exit_Click(object sender, RoutedEventArgs e)
