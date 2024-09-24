@@ -24,5 +24,10 @@ namespace CloneyPad
         {
             InitializeComponent();
         }
+
+        private void txtBxMainTextView_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            lblCharCount.Content = txtBxMainTextView.Text.Length.ToString();
+        }
     }
 }

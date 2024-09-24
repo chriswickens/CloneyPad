@@ -47,10 +47,10 @@
         <!-- Status Bar -->
         <StatusBar Height="20" DockPanel.Dock="Bottom">
             <Label Margin="0,-10,-12,-10" Width="50" Content="Length:"/>
-            <Label Name="lblCharCount" Margin="0,-10,0,-10" Width="Auto" Content="74839"/>
+            <Label Name="lblCharCount" Margin="0,-10,0,-10" Width="Auto" Content="0"/>
         </StatusBar>
 
         <!-- TextBox Document View -->
-        <TextBox Name="txtBxMainTextView" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextWrapping="Wrap"/>
+        <TextBox Name="txtBxMainTextView" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextWrapping="Wrap" TextChanged="txtBxMainTextView_TextChanged"/>
     </DockPanel>
 </Window>
