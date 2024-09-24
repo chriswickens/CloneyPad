@@ -50,7 +50,7 @@ namespace CloneyPad
             lblCharCount.Content = txtBxMainTextView.Text.Length.ToString();
             hasTextBeenEdited = true;
         }
-        private MessageBoxResult AskAboutUnsavedChanges(/*object sender*//*, ExecutedRoutedEventArgs e*/)
+        private MessageBoxResult AskAboutUnsavedChanges()
         {
             if (!hasFileBeenSaved && hasTextBeenEdited)
             {
@@ -198,13 +198,7 @@ namespace CloneyPad
             {
                 MessageBox.Show($"Uncaught exception: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
             }
-
         }
-
-        //private void cmdSave_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        //{
-        //    e.CanExecute = true; // Is this needed?
-        //}
 
         private void cmdSaveAs_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -245,8 +239,8 @@ namespace CloneyPad
                 {
                     MessageBox.Show($"Uncaught exception: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
                 }
-
             }
+
             else
             {
                 anySaveSuccess = false;
@@ -278,7 +272,17 @@ namespace CloneyPad
 
         private void cloneyPadMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            MessageBoxResult exitResult = MessageBoxResult.No;
+            if (!hasFileBeenSaved && hasTextBeenEdited)
+            {
+                // If the user is asked about changes
+                exitResult = AskAboutUnsavedChanges();
+            }
 
+            if(exitResult == MessageBoxResult.Cancel)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

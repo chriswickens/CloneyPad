@@ -47,7 +47,8 @@
                     Command="ApplicationCommands.SaveAs"/>
                 <MenuItem
                     Name="mnuFile_Exit"
-                    Header="Exit"/>
+                    Header="Exit"
+                    Click="mnuFile_Exit_Click"/>
                 <!--Click=""-->
             </MenuItem>
 
