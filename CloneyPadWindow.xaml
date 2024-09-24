@@ -6,7 +6,15 @@
         xmlns:local="clr-namespace:CloneyPad"
         mc:Ignorable="d"
         Title="CloneyPad" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <DockPanel>
+        <Menu>
+            <MenuItem Header="_File">
+                <MenuItem Header="_New"/>
+                <MenuItem Header="_Open..."/>
+                <MenuItem Header="_Save"/>
+                <MenuItem Header="Save _As..."/>
+            </MenuItem>
+            
+        </Menu>
+    </DockPanel>
 </Window>
