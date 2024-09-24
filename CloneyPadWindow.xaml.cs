@@ -54,11 +54,6 @@ namespace CloneyPad
 
         }
 
-        //private void cmdNew_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        //{
-        //    // Do you need this? I don't think so, remove it later.
-        //}
-
         private void cmdOpen_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (!hasFileBeenSaved && hasTextBeenEdited)
@@ -91,6 +86,8 @@ namespace CloneyPad
                         fileNameOnly = fileToOpen.SafeFileName; // Store the fileNameOnly (example.txt)
                         fullPathFileName = fileToOpen.FileName; // Store the full filename and path
                     }
+
+                    UpdateTitle();
                 }
                 catch (FileNotFoundException eX)
                 {
@@ -104,19 +101,10 @@ namespace CloneyPad
                 {
                     MessageBox.Show($"The file could not be opened: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
                 }
-                catch (Exception)
+                catch (Exception eX)
                 {
-
-                    throw;
+                    MessageBox.Show($"Uncaught exception: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
                 }
-                //StreamReader fileContents = new StreamReader(fullPathFileName); // Open a StreamReader
-
-
-                //fileContents.Close();
-
-                // Add the filename to the Title
-                //Title = Title.Substring(0, 12) + fileNameOnly;
-                UpdateTitle();
             }
         }
 
@@ -127,10 +115,7 @@ namespace CloneyPad
                 cmdSaveAs_Executed(sender, e);
                 return;
             }
-            //SaveFileDialog saveFile = new SaveFileDialog();
-            //saveFile.Filter = fileDialogTypes;
-            //saveFile.FileName = fullPathFileName;
-            //fileNameOnly = saveFile.SafeFileName;
+
             try
             {
                 using (StreamWriter writeText = new StreamWriter(fullPathFileName))
@@ -150,13 +135,10 @@ namespace CloneyPad
             {
                 MessageBox.Show($"The file could not be opened: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
             }
-            catch (Exception)
+            catch (Exception eX)
             {
-
-                throw;
+                MessageBox.Show($"Uncaught exception: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
             }
-
-            //File.WriteAllText(saveFile.FileName, txtBxMainTextView.Text);
             hasFileBeenSaved = true;
             hasTextBeenEdited = false;
             UpdateTitle();
@@ -195,9 +177,9 @@ namespace CloneyPad
                 {
                     MessageBox.Show($"The file could not be opened: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
                 }
-                catch (Exception)
+                catch (Exception eX)
                 {
-                    throw;
+                    MessageBox.Show($"Uncaught exception: '{eX}'", "ERROR", MessageBoxButton.OK, icon: MessageBoxImage.Warning);
                 }
                 //File.WriteAllText(saveFileAs.FileName, txtBxMainTextView.Text);
                 fullPathFileName = saveFileAs.FileName;
