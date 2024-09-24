@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,12 +44,31 @@ namespace CloneyPad
 
         private void cmdNew_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-
+            // Do you need this? I don't think so, remove it later.
         }
 
         private void cmdOpen_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            string filePath = "";
+            //if (!hasFileBeenSaved)
+            //{
+            //    MessageBox.Show("This is where you ask the user if they want to save the file!");
+            //}
 
+            // Create and open the OpenFileDialog
+            OpenFileDialog openFile = new OpenFileDialog();
+            if(openFile.ShowDialog() == true) // If the user clicked OK in the open dialog
+            {
+                filePath = openFile.FileName; // Get the full path/name of file
+
+                StreamReader fileContents = new StreamReader(filePath);
+                txtBxMainTextView.Text = fileContents.ReadToEnd();
+
+                fileContents.Close();
+                // 12 characters before filename in title
+
+            }
+            //MessageBox.Show($"File: {filePath}");
         }
 
         private void cmdSave_Executed(object sender, ExecutedRoutedEventArgs e)
