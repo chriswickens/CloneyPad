@@ -27,7 +27,7 @@ namespace CloneyPad
         // Fields
         private bool hasFileBeenSaved = false;
         private bool hasTextBeenEdited = false;
-        private bool anySaveSuccess = false;
+        //private bool hasFileBeenSaved = false;
         private string fileNameOnly = "";
         private string fullPathFileName = "";
 
@@ -66,7 +66,7 @@ namespace CloneyPad
                 if (askForSave == MessageBoxResult.Yes)
                 {
                     cmdSave_Executed(null, null);
-                    if (anySaveSuccess)
+                    if (hasFileBeenSaved)
                     {
                         return MessageBoxResult.Yes;
                     }
@@ -101,7 +101,7 @@ namespace CloneyPad
                     txtBxMainTextView.Text = "";
                     hasFileBeenSaved = false;
                     hasTextBeenEdited = false;
-                    fileNameOnly = "";
+                    fileNameOnly = "Untitled";
                     fullPathFileName = "";
                 }
 
@@ -116,9 +116,10 @@ namespace CloneyPad
                 txtBxMainTextView.Text = "";
                 hasFileBeenSaved = false;
                 hasTextBeenEdited = false;
-                fileNameOnly = "";
+                fileNameOnly = "Untitled";
                 fullPathFileName = "";
             }
+            UpdateTitle();
         }
 
         private void cmdOpen_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -202,7 +203,6 @@ namespace CloneyPad
 
                 hasFileBeenSaved = true;
                 hasTextBeenEdited = false;
-                anySaveSuccess = true;
                 UpdateTitle();
             }
             catch (FileNotFoundException eX)
@@ -242,7 +242,6 @@ namespace CloneyPad
                     fileNameOnly = saveFileAs.SafeFileName;
                     hasFileBeenSaved = true;
                     hasTextBeenEdited = false;
-                    anySaveSuccess = true;
                     UpdateTitle();
                 }
 
@@ -266,13 +265,13 @@ namespace CloneyPad
 
             else
             {
-                anySaveSuccess = false;
+                hasFileBeenSaved = false;
             }
         }
 
         private void cmdSaveAs_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (anySaveSuccess)
+            if (hasFileBeenSaved)
             {
                 e.CanExecute = true;
             }
