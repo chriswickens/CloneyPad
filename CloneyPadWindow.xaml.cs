@@ -121,11 +121,9 @@ namespace CloneyPad
             }
         }
 
-
         private void cmdOpen_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            // Default to CANCEL
-            MessageBoxResult saveBeforeOpen = MessageBoxResult.No;
+            MessageBoxResult saveBeforeOpen = MessageBoxResult.Yes;
             if (!hasFileBeenSaved && hasTextBeenEdited)
             {
                 // If the user is asked about changes
@@ -133,7 +131,16 @@ namespace CloneyPad
             }
 
             // Show the OpenFileDialog if the user clicked anything other than Cancel
-            if (saveBeforeOpen == MessageBoxResult.No || saveBeforeOpen == MessageBoxResult.Yes)
+            if(saveBeforeOpen == MessageBoxResult.No)
+            {
+                txtBxMainTextView.Text = "";
+                hasFileBeenSaved = false;
+                hasTextBeenEdited = false;
+                fileNameOnly = "";
+                fullPathFileName = "";
+            }
+
+            else if (saveBeforeOpen == MessageBoxResult.Yes)
             {
                 // Create and open the OpenFileDialog
                 OpenFileDialog fileToOpen = new OpenFileDialog();
