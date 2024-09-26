@@ -8,9 +8,9 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("CloneyPad")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A basic Notepad clone")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Wickens Inc.")]
 [assembly: AssemblyProduct("CloneyPad")]
 [assembly: AssemblyCopyright("Copyright ©  2024")]
 [assembly: AssemblyTrademark("")]
