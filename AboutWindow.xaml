@@ -4,7 +4,7 @@ PROJECT : PROG2121 - Assignment #2
 PROGRAMMER : Chris Wickens
 FIRST VERSION : 2024-09-23
 FINAL VERSION : 2024-09-26
-DESCRIPTION : This file contains the XAML necessary to create a basic functional clone of Notepad.
+DESCRIPTION : This file contains the XAML necessary to create a basic About window.
 -->
 
 <Window x:Class="CloneyPad.AboutWindow"

@@ -175,7 +175,6 @@ namespace CloneyPad
         //
         // DESCRIPTION: Uses command binding for ApplicationCommands.Open in the menu item mnuFile_Open.
         // If the user wants to open an existing file, this checks if the current text needs to be saved first due to changes.
-        // If the user wishes 
         //
         // PARAMETERS:
         // object sender (default)
@@ -190,7 +189,6 @@ namespace CloneyPad
                 saveBeforeOpen = AskAboutUnsavedChanges();
             }
 
-            // Show the OpenFileDialog if the user clicked anything other than Cancel
             if (saveBeforeOpen == MessageBoxResult.No)
             {
                 txtBxMainTextView.Text = "";
@@ -202,7 +200,6 @@ namespace CloneyPad
 
             if (saveBeforeOpen == MessageBoxResult.Yes)
             {
-                // Create and open the OpenFileDialog
                 OpenFileDialog fileToOpen = new OpenFileDialog();
                 if (fileToOpen.ShowDialog() == true) // If the user clicked OK in the open dialog
                 {
@@ -247,10 +244,10 @@ namespace CloneyPad
 
         // METHOD: cmdSave_Executed()
         //
-        // DESCRIPTION: Uses command binding for ApplicationCommands.Save.
-        // This allows the main TextBox text to be saved to a file, and if the text has already been saved, to simple save
-        // to the existing file name again. If the file has NOT been saved yet, it will execute cmdSaveAs_Executed() directly
-        // to open the Save As dialog.
+        // DESCRIPTION: Uses command binding for ApplicationCommands.Save in the menu item mnuFile_Save.
+        // This allows the main TextBox text to be saved to a file, and if the text has already been saved, to save
+        // to the existing file name again. If the file has NOT been saved yet, it will execute cmdSaveAs_Executed() to open
+        // the Save As dialog.
         //
         // PARAMETERS:
         // object sender (default)
@@ -258,7 +255,7 @@ namespace CloneyPad
         // RETURNS: None
         internal void cmdSave_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (!hasFileBeenSaved && fullPathFileName == "")
+            if (!hasFileBeenSaved)
             {
                 cmdSaveAs_Executed(sender, e);
                 return;
@@ -295,7 +292,7 @@ namespace CloneyPad
 
         // METHOD: cmdSaveAs_CanExecute()
         //
-        // DESCRIPTION: Uses command binding for ApplicationCommands.SaveAs.
+        // DESCRIPTION: Uses command binding for ApplicationCommands.SaveAs in the menu item mnuFile_SaveAs.
         // This controls if the SaveAs command is active/inactive in the File menu.
         // The SaveAs command will only be active once the file has been saved (relies on bool hasFileBeenSaved).
         //
@@ -317,10 +314,11 @@ namespace CloneyPad
 
         // METHOD: cmdSaveAs_Executed()
         //
-        // DESCRIPTION: Uses command binding for ApplicationCommands.SaveAs.
+        // DESCRIPTION: Uses command binding for ApplicationCommands.SaveAs in the menu item mnuFile_SaveAs.
         // Used to save text in the main TextBox to a specific file. This will be called in the first instance of the user
         // saving a file so they can provide a file name. The default directory provided in this method will open the dialog
         // in the My Documents folder of Windows.
+        // File types are defined at the top of this file : string fileDialogTypes
         //
         // PARAMETERS:
         // object sender (default)
@@ -389,8 +387,8 @@ namespace CloneyPad
 
         // METHOD: cloneyPadMainWindow_Closing()
         //
-        // DESCRIPTION: Method to handle closing the program.
-        // Used to check if the current text has been saved before allowing the program to be closed.
+        // DESCRIPTION: Method to handle logic when the user is trying to close the program.
+        // Used to check if the current text has been saved, or should be before allowing the program to be closed.
         //
         // PARAMETERS:
         // object sender (default)
