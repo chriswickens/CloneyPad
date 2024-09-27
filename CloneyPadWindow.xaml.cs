@@ -98,7 +98,8 @@ namespace CloneyPad
 
         // METHOD: AskAboutUnsavedChanges()
         //
-        // DESCRIPTION: This method is used to display a message box containing Yes/No/Cancel options.
+        // DESCRIPTION: This method is used to display a message box containing Yes/No/Cancel options and return their result to
+        // the method that called this.
         // This should be called any time the current text has been changed, and NOT saved when the user
         // is trying to perform an action that will clear the unsaved data.
         // This method will call the cmdSave_Executed() method if the user wishes to save their work.
@@ -142,7 +143,7 @@ namespace CloneyPad
         // RETURNS: None
         internal void cmdNew_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (!hasFileBeenSaved && hasTextBeenEdited)
+            if (!hasFileBeenSaved && hasTextBeenEdited && txtBxMainTextView.Text.Length != 0)
             {
                 MessageBoxResult createNew = AskAboutUnsavedChanges();
                 if (createNew == MessageBoxResult.No || createNew == MessageBoxResult.Yes)
@@ -183,7 +184,7 @@ namespace CloneyPad
         internal void cmdOpen_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MessageBoxResult saveBeforeOpen = MessageBoxResult.Yes;
-            if (!hasFileBeenSaved && hasTextBeenEdited)
+            if (!hasFileBeenSaved && hasTextBeenEdited && txtBxMainTextView.Text.Length != 0)
             {
                 // If the user is asked about changes
                 saveBeforeOpen = AskAboutUnsavedChanges();
@@ -255,7 +256,7 @@ namespace CloneyPad
         // RETURNS: None
         internal void cmdSave_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (!hasFileBeenSaved)
+            if (!hasFileBeenSaved && fullPathFileName == "")
             {
                 cmdSaveAs_Executed(sender, e);
                 return;
@@ -397,7 +398,7 @@ namespace CloneyPad
         internal void cloneyPadMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             MessageBoxResult exitResult = MessageBoxResult.No;
-            if (!hasFileBeenSaved && hasTextBeenEdited)
+            if (!hasFileBeenSaved && hasTextBeenEdited && txtBxMainTextView.Text.Length != 0)
             {
                 // Ask if the user wishes to save any unsaved data
                 exitResult = AskAboutUnsavedChanges();

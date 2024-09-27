@@ -37,9 +37,5 @@ DESCRIPTION : This file contains the XAML necessary to create a basic About wind
             </TextBlock.Effect>CloneyPad</TextBlock>
         <TextBox  Grid.Row="1" Name="txtBxAboutText" IsEnabled="False"></TextBox>
         <Button Margin="10" Grid.Row="2" Name="btnAbout_Close" Width="60" Height="25" Content="_Close" Click="btnAbout_Close_Click"/>
-
     </Grid>
-
-
-
 </Window>
