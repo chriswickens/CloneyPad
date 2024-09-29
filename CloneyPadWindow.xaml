@@ -27,8 +27,7 @@ DESCRIPTION : This file contains the XAML necessary to create a basic functional
                         Executed="cmdSave_Executed"/>
 
         <CommandBinding x:Name="cmdSaveAs" Command="ApplicationCommands.SaveAs"
-                        Executed="cmdSaveAs_Executed"
-                        CanExecute="cmdSaveAs_CanExecute"/>
+                        Executed="cmdSaveAs_Executed"/>
     </Window.CommandBindings>
 
     <DockPanel>
@@ -77,10 +76,13 @@ DESCRIPTION : This file contains the XAML necessary to create a basic functional
             </MenuItem>
 
             <!-- About Menu -->
-            <MenuItem 
+            <MenuItem Header="_Help">
+                <MenuItem 
                 Name="mnuAbout"
                 Header="_About"
                 Click="mnuAbout_Click"/>
+            </MenuItem>
+
         </Menu>
 
         <!-- Status Bar -->

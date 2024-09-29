@@ -291,28 +291,6 @@ namespace CloneyPad
             }
         }
 
-        // METHOD: cmdSaveAs_CanExecute()
-        //
-        // DESCRIPTION: Uses command binding for ApplicationCommands.SaveAs in the menu item mnuFile_SaveAs.
-        // This controls if the SaveAs command is active/inactive in the File menu.
-        // The SaveAs command will only be active once the file has been saved (relies on bool hasFileBeenSaved).
-        //
-        // PARAMETERS:
-        // object sender (default)
-        // CanExecuteRoutedEventArgs e (default)
-        // RETURNS: None
-        internal void cmdSaveAs_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            if (hasFileBeenSaved)
-            {
-                e.CanExecute = true;
-            }
-            else
-            {
-                e.CanExecute = false;
-            }
-        }
-
         // METHOD: cmdSaveAs_Executed()
         //
         // DESCRIPTION: Uses command binding for ApplicationCommands.SaveAs in the menu item mnuFile_SaveAs.
