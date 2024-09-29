@@ -87,7 +87,7 @@ DESCRIPTION : This file contains the XAML necessary to create a basic functional
 
         <!-- Status Bar -->
         <StatusBar Height="20" DockPanel.Dock="Bottom">
-            <Label Margin="0,-10,-12,-10" Width="50" Content="Length:"/>
+            <Label Margin="0,-10,-12,-10" Width="70" Content="Characters:"/>
             <Label Name="lblCharCount" Margin="0,-10,0,-10" Width="Auto" Content="0"/>
         </StatusBar>
 
