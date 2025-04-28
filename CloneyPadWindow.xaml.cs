@@ -199,7 +199,7 @@ namespace CloneyPad
                 fullPathFileName = "";
             }
 
-            if (saveBeforeOpen == MessageBoxResult.Yes)
+            if (saveBeforeOpen == MessageBoxResult.Yes || saveBeforeOpen == MessageBoxResult.No)
             {
                 OpenFileDialog fileToOpen = new OpenFileDialog();
                 if (fileToOpen.ShowDialog() == true) // If the user clicked OK in the open dialog

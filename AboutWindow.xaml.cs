@@ -38,14 +38,13 @@ namespace CloneyPad
 
             txtBxAboutText.Text = $"This program was coded by:\n" +
                 $"Name: Chris Wickens\n" +
-                $"Student Number: 8827595\n" +
-                $"Email: cwickens7595@conestogac.on.ca\n" +
+                $"Student Number: XXXXXXX\n" +
+                $"Email: chriswickens@gmail.com\n" +
                 $"\n" +
                 $"This is a simple Notepad clone called CloneyPad\n" +
                 $"This was coded for Assignment #02\n" +
                 $"Course: Windows Programming\n" +
-                $"Course Code: PROG2121-24F-Sec1\n" +
-                $"Teacher: Norbert Mika\n\n";
+                $"Course Code: PROG2121-24F-Sec1\n";
         }
 
         // METHOD: btnAbout_Close_Click()
